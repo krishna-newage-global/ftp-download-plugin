@@ -1,5 +1,6 @@
 export interface FTPDownloadPlugin {
   echo(options: { value: string }): Promise<{ value: string }>;
+  requestPermissions(): Promise<{ value: string }>;
   doanloadFTPFile(params: DownloadFileParams): Promise<{ value: string }>
 }
 

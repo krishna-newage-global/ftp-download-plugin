@@ -1,5 +1,7 @@
 package com.krishnakottayada.ftpdownload;
 
+
+import android.os.Build;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -29,6 +31,10 @@ public class FTPDownload {
     public String echo(String value) {
         Log.i("Echo", value);
         return value;
+    }
+
+      public String requestPermissions() {
+        return "done";
     }
 
     public String downloadFTP(String ftpUrl, String ftpUserName, String ftpPassword, String filePath, String fileName, String storageFolderName) {
@@ -76,7 +82,17 @@ public class FTPDownload {
         protected String doInBackground(Object[] params) {
             boolean status = false;
             FTPClient mFtpClient = null;
-            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), storageFolderName);
+
+            File mediaStorageDir = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+            {
+                mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/" + storageFolderName);
+            }
+            else
+            {
+                mediaStorageDir = new File(Environment.getExternalStorageDirectory() + "/Documents/" + storageFolderName);
+            }
+
             mypath = new File(mediaStorageDir, fileName);
             Log.e("path", mypath.toString());
             Bitmap b = null;
@@ -131,7 +147,7 @@ public class FTPDownload {
 
             try {
                 b = BitmapFactory.decodeStream(new FileInputStream(mypath));
-                return "Done";
+                return mediaStorageDir.toString();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

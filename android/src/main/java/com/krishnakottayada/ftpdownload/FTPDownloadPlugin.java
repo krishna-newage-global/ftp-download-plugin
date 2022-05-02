@@ -61,6 +61,13 @@ public class FTPDownloadPlugin extends Plugin {
         }
     }
 
+    @PluginMethod()
+    public void requestPermissions(PluginCall call) {
+        if (getPermissionState("storage") != PermissionState.GRANTED) {
+            requestPermissionForAlias("storage", call, "filePermsCallback");
+        } 
+    }
+
 
     @PermissionCallback
     private void filePermsCallback(PluginCall call) {

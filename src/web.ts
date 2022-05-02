@@ -8,6 +8,10 @@ export class FTPDownloadWeb extends WebPlugin implements FTPDownloadPlugin {
     return options;
   }
 
+  async requestPermissions(): Promise<{ value: string }> {
+    return { value: "" };
+  }
+
   async doanloadFTPFile(params: DownloadFileParams): Promise<{ value: string }> {
     console.log('doanloadFTPFile', params);
     return { value: "" };
